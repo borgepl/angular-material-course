@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="onToggleSideNav()">
+      <mat-icon>menu</mat-icon>
+  </button>
+  <a mat-button [matMenuTriggerFor]="dropdown">
+    Screens
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </a>
+  <mat-menu #dropdown>
+    <button mat-menu-item routerLink="/">Courses</button>
+    <button mat-menu-item routerLink="/about">About</button>
+  </mat-menu>
+  <a mat-button>
+    <mat-icon>person_add</mat-icon>
+    Register
+  </a>
+  <a mat-button>
+    <mat-icon>account_circle</mat-icon>
+    Login
+  </a>
+</mat-toolbar>
