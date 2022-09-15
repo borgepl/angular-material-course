@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {Course} from "../model/course";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { CoursesService } from '../services/courses.service';
 
 @Component({
     selector: 'courses-card-list',
@@ -12,11 +13,16 @@ export class CoursesCardListComponent implements OnInit {
     @Input()
     courses: Course[];
 
-    constructor() {
+    constructor( private courseService: CoursesService) {
     }
 
     ngOnInit() {
-
+     /*  this.courseService.findAllCourses().subscribe(
+        courses => {
+          this.courses = courses;
+          console.log(this.courses);
+        }
+      ) */
     }
 
     editCourse(course:Course) {
