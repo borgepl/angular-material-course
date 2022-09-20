@@ -15,7 +15,30 @@
     <mat-radio-button value="premium">Premium</mat-radio-button>
   </mat-radio-group>
   <mat-form-field appearance="fill">
-    <mat-select></mat-select>
+    <mat-select formControlName="category" placeholder="Select category">
+      <mat-option>None</mat-option>
+      <mat-optgroup label="Beginners">
+        <mat-option value="newprogramming">New to Programming</mat-option>
+        <mat-option value="newjava">New to Java</mat-option>
+        <mat-option value="newangular">New to Angular</mat-option>
+      </mat-optgroup>
+      <mat-option value="INTERMEDIATE">intermediate</mat-option>
+      <mat-option value="ADVANCED">Advanced</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <input matInput formControlName="releasedAt"
+        placeholder="Release Date" [matDatepicker]="releasedAtPicker" >
+    <mat-datepicker-toggle matSuffix [for]="releasedAtPicker"></mat-datepicker-toggle>
+    <mat-datepicker #releasedAtPicker [dateClass]="dateClass"></mat-datepicker>
+  </mat-form-field>
+  <mat-checkbox color="primary" formControlName="downloadsAllowed" [indeterminate]="true">
+    Downloads allowed?
+  </mat-checkbox>
+  <mat-form-field appearance="outline">
+    <textarea matInput placeholder="Description"
+      formControlName="longDescription" cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5">
+    </textarea>
   </mat-form-field>
 </form>
 
