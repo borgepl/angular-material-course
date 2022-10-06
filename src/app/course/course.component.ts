@@ -8,6 +8,7 @@ import {CoursesService} from "../services/courses.service";
 import {debounceTime, distinctUntilChanged, startWith, tap, delay } from 'rxjs/operators';
 import {merge, fromEvent, throwError, Subscription} from "rxjs";
 import { Lesson } from '../model/lesson';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 @Component({
@@ -109,13 +110,16 @@ export class CourseComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatSort)
     sort: MatSort;
 
+    selection =  new SelectionModel<Lesson>(true, [])
+
     constructor( private route: ActivatedRoute,
                  private coursesService: CoursesService) {
 
     }
 
 
-    displayedColumns = ['seqNo','description','duration'];
+    displayedColumns = ['select', 'seqNo','description','duration'];
+    expandedLesson: Lesson = null;
 
     ngOnInit() {
 
@@ -158,6 +162,33 @@ export class CourseComponent implements OnInit, AfterViewInit, OnDestroy {
         }
        });
   }
+
+    isAllSelected() {
+      return this.selection.selected?.length == this.lessons?.length;
+    }
+
+    toggleAll() {
+      if (this.isAllSelected) {
+        this.selection.clear();
+      }
+      else {
+        this.selection.select(...this.lessons);
+      }
+    }
+
+    onToggleLesson(lesson: Lesson) {
+      if (lesson == this.expandedLesson) {
+        this.expandedLesson = null;
+      }
+      else {
+        this.expandedLesson = lesson;
+      }
+    }
+
+    onLessonSelected(lesson: Lesson) {
+      this.selection.toggle(lesson);
+      console.log(this.selection.selected);
+    }
 
     ngAfterViewInit() {
 
