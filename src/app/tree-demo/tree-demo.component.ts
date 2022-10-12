@@ -2,9 +2,20 @@ import {Component, OnInit} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource} from '@angular/material/tree';
 import {FlatTreeControl, NestedTreeControl} from '@angular/cdk/tree';
 
+/**
+ * Course data with nested structure.
+ * Each node has a name and an optional list of children.
+ */
 interface CourseNode {
   name: string;
   children?: CourseNode[];
+}
+
+/** Flat node with expandable and level information */
+interface COurseFlatNode {
+  name: string;
+  expandable: boolean;
+  level: number;
 }
 
 const TREE_DATA: CourseNode[] = [
@@ -58,16 +69,44 @@ const TREE_DATA: CourseNode[] = [
 })
 export class TreeDemoComponent implements OnInit {
 
+  // Nested Tree properties
   nestedDataSource = new MatTreeNestedDataSource<CourseNode>();
   nestedTreeControl = new NestedTreeControl<CourseNode>(node => node.children);
 
+  // Flat Tree properties
+  flatTreeControl =  new FlatTreeControl<COurseFlatNode>(
+    node => node.level,
+    node => node.expandable
+  );
+
+  treeFlattener = new MatTreeFlattener(
+    (node: CourseNode, level: number): COurseFlatNode => {
+      return {
+        name: node.name,
+        expandable: node.children?.length > 0,
+        level
+      }
+    },
+    node => node.level,
+    node => node.expandable,
+    node => node.children
+  );
+
+  flatDataSource =  new MatTreeFlatDataSource(this.flatTreeControl, this.treeFlattener);
+
   ngOnInit() {
 
+    // set the datasource for Nested Tree
     this.nestedDataSource.data = TREE_DATA;
+    // set the datasource for Flat Tree
+    this.flatDataSource.data = TREE_DATA;
   }
 
   hasNestedChild = (_: number, node: CourseNode) => !!node.children && node.children.length > 0;
 
+  hasFlatChild(index: number, node: COurseFlatNode) {
+    return node.expandable;
+  }
 }
 
 
