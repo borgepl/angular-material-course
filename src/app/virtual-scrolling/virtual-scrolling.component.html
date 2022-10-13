@@ -5,9 +5,29 @@
 
     <h3>Virtual Scrolling Demo</h3>
 
-    <mat-list class="scrolling-container mat-elevation-z7">
+    <!-- Without virtual scrolling from Angular Material-->
+
+   <!--  <mat-list class="scrolling-container mat-elevation-z7">
+
       <mat-list-item *ngFor="let item of items"> {{item}} </mat-list-item>
-    </mat-list>
+
+    </mat-list> -->
+
+  <mat-list class=" mat-elevation-z7">
+
+    <cdk-virtual-scroll-viewport itemSize="48" class="scrolling-container">
+
+      <mat-list-item *cdkVirtualFor="let item of items; let index = index;
+                                      let count = count;
+                                      let first= first;
+                                      let last= last;
+                                      let even = even;
+                                      let odd = odd;"
+              [class.oddBackground]=" odd "> {{item}} </mat-list-item>
+
+    </cdk-virtual-scroll-viewport>
+
+  </mat-list>
 
   </div>
 
